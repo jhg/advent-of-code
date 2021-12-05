@@ -29,6 +29,16 @@ impl HydrothermalDiagram {
                for x in min(x1, x2)..=max(x1, x2) {
                     self.matrix[y1][x] += 1;
                }
+          } else {
+               let steps_x = max(x1, x2)-min(x1, x2);
+               let steps_y = max(y1, y2)-min(y1, y2);
+               if steps_x == steps_y && steps_x > 1 {
+                    for step in 0..=steps_x {
+                         let x = if x1 < x2 { x1 + step } else { x1 - step };
+                         let y = if y1 < y2 { y1 + step } else { y1 - step };
+                         self.matrix[y][x] += 1;
+                    }
+               }
           }
      }
 
