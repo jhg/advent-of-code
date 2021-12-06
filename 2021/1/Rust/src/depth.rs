@@ -18,7 +18,7 @@ impl SlidingWindowDepthMeasures {
         if !self.enough_len() {
             return None;
         }
-        return self.queue.iter().map(|&x| x).reduce(|accum, item| accum + item);
+        return Some(self.queue.iter().sum());
     }
 
     pub fn enough_len(&self) -> bool { self.queue.len() == 3 }
