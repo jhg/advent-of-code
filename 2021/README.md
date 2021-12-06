@@ -1,5 +1,7 @@
 # Advent of Code - 2021
 
+The code will be push after December 26th.
+
 Days:
 
 01. [Sonar Sweep](./1/README.md)
