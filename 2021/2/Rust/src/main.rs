@@ -5,12 +5,16 @@ use std::io;
 fn main() -> io::Result<()> {
     let mut horizontal_position = 0;
     let mut depth = 0;
+    let mut aim = 0;
     for line in opt::Opt::from_args().lines()? {
         let (action, units) = split_command(&line)?;
         match action {
-            "forward" => horizontal_position += units,
-            "down" => depth += units,
-            "up" => depth -= units,
+            "forward" => {
+                horizontal_position += units;
+                depth += aim * units;
+            }
+            "down" => aim += units,
+            "up" => aim -= units,
             _ => unreachable!(),
         }
     }
