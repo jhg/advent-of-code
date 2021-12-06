@@ -1,31 +1,16 @@
-use structopt::StructOpt;
+use helpers::Opt;
 
-use std::path::PathBuf;
-use std::fs::File;
-use std::io::{self, BufRead};
+use std::io;
 
 mod depth;
 use depth::SlidingWindowDepthMeasures;
-
-#[derive(StructOpt)]
-struct Opt {
-    input_file: PathBuf,
-}
-
-impl Opt {
-    fn lines() -> io::Result<io::Lines<io::BufReader<std::fs::File>>> {
-        let opt = Self::from_args();
-        let file = io::BufReader::new(File::open(opt.input_file)?);
-        return Ok(file.lines());
-    }
-}
 
 fn main() -> io::Result<()> {
     let mut depth_measures_window = SlidingWindowDepthMeasures::default();
     let mut prev_depth_measure = None;
     let mut total_times_increase = 0;
-    for line in Opt::lines()? {
-        let depth_measure: usize = line?.parse().expect("Can not parse the depth measurement");
+    for line in Opt::from_args().lines()? {
+        let depth_measure: usize = line.parse().expect("Can not parse the depth measurement");
         depth_measures_window.add(depth_measure);
         if !depth_measures_window.enough_len() {
             continue;
